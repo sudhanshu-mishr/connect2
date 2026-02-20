@@ -8,9 +8,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const loading = document.querySelector('.loading');
     const controls = document.getElementById('controls');
 
+    // Get CSRF Token
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
     // Fetch potential matches
     fetch('/api/users')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) throw new Error('Failed to fetch users');
+            return response.json();
+        })
         .then(data => {
             users = data;
             loading.classList.add('hidden');
@@ -20,6 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 cardContainer.innerHTML = '<div class="no-matches">No more users to swipe!</div>';
             }
+        })
+        .catch(err => {
+            console.error(err);
+            loading.innerText = 'Error loading users';
         });
 
     function renderCard() {
@@ -62,18 +72,23 @@ document.addEventListener('DOMContentLoaded', () => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
             },
             body: JSON.stringify({
                 swiped_id: user.id,
                 is_like: isLike
             })
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) throw new Error('Swipe failed');
+            return response.json();
+        })
         .then(data => {
             if (data.match) {
                 showMatchModal(user);
             }
-        });
+        })
+        .catch(err => console.error(err));
 
         currentIndex++;
         setTimeout(() => {
@@ -116,6 +131,10 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(matches => {
                 const list = document.getElementById('matches-list');
+                if (matches.length === 0) {
+                    list.innerHTML = '<li>No matches yet.</li>';
+                    return;
+                }
                 list.innerHTML = matches.map(match => `
                     <li>
                         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">

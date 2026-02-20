@@ -6,3 +6,4 @@ SQLAlchemy
 email_validator
 gunicorn
 psycopg2-binary
+whitenoise
