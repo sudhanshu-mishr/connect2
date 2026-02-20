@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.db
+*.sqlite3
+instance/
+.env
+.venv
+env/
+venv/
+flask.log
+flask.pid
+verification.png
+verification_script.py
+init_db.py
+tests.py
