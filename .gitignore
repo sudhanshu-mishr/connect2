@@ -12,5 +12,5 @@ flask.log
 flask.pid
 verification.png
 verification_script.py
-init_db.py
 tests.py
+app.db

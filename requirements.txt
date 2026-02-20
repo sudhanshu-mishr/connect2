@@ -4,3 +4,5 @@ Flask-Login
 Flask-WTF
 SQLAlchemy
 email_validator
+gunicorn
+psycopg2-binary
