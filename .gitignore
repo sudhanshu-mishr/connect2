@@ -14,3 +14,4 @@ verification.png
 verification_script.py
 tests.py
 app.db
+gunicorn_debug.log

@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 from .database import Base
 from passlib.context import CryptContext
 
+# Use argon2 for password hashing, with auto deprecation for older schemes
 pwd_context = CryptContext(schemes=['argon2'], deprecated='auto')
 
 class User(Base):
