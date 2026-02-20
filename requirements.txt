@@ -7,3 +7,4 @@ passlib[argon2]
 itsdangerous
 psycopg2-binary
 email_validator
+gunicorn
