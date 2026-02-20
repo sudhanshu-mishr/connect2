@@ -15,3 +15,6 @@ verification_script.py
 tests.py
 app.db
 gunicorn_debug.log
+gunicorn_test_4.log
+gunicorn_test_5.log
+gunicorn_test_6.log
