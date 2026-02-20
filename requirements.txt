@@ -1,9 +1,9 @@
-Flask
-Flask-SQLAlchemy
-Flask-Login
-Flask-WTF
-SQLAlchemy
-email_validator
-gunicorn
+fastapi
+uvicorn[standard]
+sqlalchemy
+jinja2
+python-multipart
+passlib[argon2]
+itsdangerous
 psycopg2-binary
-whitenoise
+email_validator

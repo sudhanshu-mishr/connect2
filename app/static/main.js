@@ -8,9 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const loading = document.querySelector('.loading');
     const controls = document.getElementById('controls');
 
-    // Get CSRF Token
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
     // Fetch potential matches
     fetch('/api/users')
         .then(response => {
@@ -42,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const user = users[currentIndex];
         const card = document.createElement('div');
         card.className = 'card';
-        card.style.backgroundImage = `url(${user.image_url})`;
+        card.style.backgroundImage = `url(${user.image_url || 'https://via.placeholder.com/300x400'})`;
 
         const info = document.createElement('div');
         info.className = 'card-info';
@@ -71,8 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch('/api/swipe', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 swiped_id: user.id,
@@ -99,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function showMatchModal(user) {
         const modal = document.getElementById('match-modal');
         document.getElementById('matched-user-name').textContent = user.username;
-        document.getElementById('matched-user-img').src = user.image_url;
+        document.getElementById('matched-user-img').src = user.image_url || 'https://via.placeholder.com/150';
         modal.classList.remove('hidden');
     }
 
@@ -138,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 list.innerHTML = matches.map(match => `
                     <li>
                         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                            <img src="${match.user.image_url}" style="width: 40px; height: 40px; border-radius: 50%;">
+                            <img src="${match.user.image_url || 'https://via.placeholder.com/50'}" style="width: 40px; height: 40px; border-radius: 50%;">
                             <span>${match.user.username}</span>
                         </div>
                     </li>
