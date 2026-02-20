@@ -13,8 +13,8 @@ class User(Base):
     username = Column(String(64), unique=True, nullable=False, index=True)
     email = Column(String(120), unique=True, nullable=False, index=True)
     password_hash = Column(String(128))
-    bio = Column(String(500))
-    image_url = Column(String(255))
+    bio = Column(String(500), nullable=True)
+    image_url = Column(String(255), nullable=True)
 
     swipes_made = relationship('Swipe', foreign_keys='Swipe.swiper_id', backref='swiper')
     swipes_received = relationship('Swipe', foreign_keys='Swipe.swiped_id', backref='swiped')

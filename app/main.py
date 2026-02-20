@@ -21,10 +21,19 @@ async def lifespan(app: FastAPI):
     db = SessionLocal()
     try:
         if not db.query(models.User).filter(models.User.username == 'DemoUser').first():
-            user = models.User(username='DemoUser', email='demo@example.com', bio='I am a demo user', image_url='https://via.placeholder.com/300')
+            user = models.User(
+                username='DemoUser',
+                email='demo@example.com',
+                bio='I am a demo user',
+                image_url='https://via.placeholder.com/300'
+            )
             user.set_password('password')
             db.add(user)
             db.commit()
+    except Exception as e:
+        # Log error but don't crash startup if user creation fails
+        # This handles cases where table schema might mismatch momentarily or race conditions
+        print(f'Error creating demo user: {e}')
     finally:
         db.close()
 
